@@ -1,15 +1,68 @@
-// This is a "stub" file.  It's a little start on your solution.
-// It's not a complete solution though; you have to write some code.
-
-// Package bob should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
 package bob
+
+import (
+	"strings"
+)
+
+const (
+	calm     = "Calm down, I know what I'm doing"
+	sure     = "Sure."
+	whoa     = "Whoa, chill out!"
+	fine     = "Fine. Be that way!"
+	whatever = "Whatever."
+)
 
 // Hey should have a comment documenting it.
 func Hey(remark string) string {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
-	return ""
+
+	q := isQuestion(remark)
+	s := shouting(remark)
+	st := statement(remark)
+
+	// if remark is a question
+	if q {
+		// if remark is a question being shouted
+		if s {
+			return calm
+		}
+		return sure
+	} else if s {
+		return whoa
+	} else if st {
+		return whatever
+	} else {
+		return fine
+	}
+}
+
+// function to check if a string is a question
+func isQuestion(remark string) bool {
+	i := strings.Index(remark, "?")
+	l := len(remark)
+
+	// Check if remark ends with a question mark
+	if i > -1 && i == l {
+		return true
+	}
+	return false
+}
+
+// function to check if a string is in all caps
+func shouting(remark string) bool {
+	for _, r := range remark {
+		if r >= 'A' || r <= 'Z' {
+			return true
+		}
+	}
+	return false
+}
+
+func statement(remark string) bool {
+	i := strings.Index(remark, "!")
+	l := len(remark)
+
+	if i > -1 && i == l {
+		return true
+	}
+	return false
 }
